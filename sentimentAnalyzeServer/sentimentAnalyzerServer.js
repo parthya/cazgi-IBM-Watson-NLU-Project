@@ -25,9 +25,6 @@ function getNLUInstance() {
     /*Type the code to create the NLU instance and return it.
     You can refer to the image in the instructions document
     to do the same.*/
-    const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
-    const { IamAuthenticator } = require('ibm-watson/auth');
-
     const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
         version: '2021-08-01',
         authenticator: new IamAuthenticator ({
@@ -40,12 +37,12 @@ function getNLUInstance() {
 
 
 //The default endpoint for the webserver
-app.get("/",(req,res)=> {
+app.get("/",(req, res)=> {
     res.render('index.html');
 });
 
 //The endpoint for the webserver ending with /url/emotion
-app.get("/url/emotion", (req,res) => {
+app.get("/url/emotion", (req, res) => {
     //Extract the url passed from the client through the request object
     let urlToAnalyze = req.query.url
     const analyzeParams = 
@@ -53,9 +50,9 @@ app.get("/url/emotion", (req,res) => {
             "url": urlToAnalyze,
             "features": {
                 "keywords": {
-                                "emotion": true,
-                                "limit": 1
-                            }
+                    "emotion": true,
+                    "limit": 1
+                }
             }
         }
      
@@ -67,12 +64,12 @@ app.get("/url/emotion", (req,res) => {
         return res.send(analysisResults.result.keywords[0].emotion,null,2);
      })
      .catch(err => {
-     return res.send("Could not do desired operation "+err);
+        return res.send("Could not do desired operation "+err);
      });
 });
 
 //The endpoint for the webserver ending with /url/sentiment
-app.get("/url/sentiment", (req,res) => {
+app.get("/url/sentiment", (req, res) => {
     let urlToAnalyze = req.query.url
     const analyzeParams = 
     {
